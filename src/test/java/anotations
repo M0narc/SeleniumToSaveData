@@ -1,0 +1,115 @@
+    // first we import the webDriver object
+    private WebDriver driver;
+    protected HomePage homePage;
+
+    //then we create a method that finds the executable file that we have in resources
+//    @BeforeClass
+//    public void setUp(){
+//        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.get("https://the-internet.herokuapp.com/");
+//        //you should really check out manage
+//
+//        //manage.window gives you some stuff to do with your browser, such as maximize and choose size
+//        //driver.manage().window().maximize();
+//
+//        //setSize let's you use a Dimension object with two integers, width and height
+//        driver.manage().window().setSize(new Dimension(375, 667));
+//        //quit and close are different
+//    }
+//
+//
+//
+//    public void locateInput(){
+//        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.get("https://the-internet.herokuapp.com/");
+//        //this is the plural form
+//        List<WebElement> link = driver.findElements(By.tagName("a"));
+//        System.out.println(link.size());
+//        //findElement By. has many forms to find the desired element
+//        //findElements is the plural form of findElement
+//        //we'll be using By.linkText this time around since Inputs has absolutely nothing
+//        //WebElement allows me to interact with the given element
+//        WebElement inputsLink = driver.findElement(By.linkText("Inputs"));
+//        inputsLink.click();
+//        driver.quit();
+//    }
+//
+//    public void test1(){
+//        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.get("https://the-internet.herokuapp.com/");
+//        WebElement shifCont = driver.findElement(By.linkText("Shifting Content"));
+//        shifCont.click();
+//        WebElement menu = driver.findElement(By.linkText("Example 1: Menu Element"));
+//        menu.click();
+//        List<WebElement> list = driver.findElements(By.tagName("li"));
+//        System.out.println(list.size());
+//        driver.quit();
+//    }
+
+    @BeforeClass //beforeClass is used to launch this class before any other
+    public void home(){
+        System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://the-internet.herokuapp.com/");
+
+        homePage = new HomePage(driver);
+
+        driver.quit();
+    }
+
+//    @AfterClass  // quite the opposite of beforeClass
+//    public void tearDown(){
+//        driver.quit();
+//    }
+
+
+KEYS----------------------------
+
+//you cab use Keys. to mandarle fruta to a lots of things, like left, right arrows, space, ctrl, alt. etc
+        //keys.Chord can be used to link Characters, to use something like "á" you need to press two keys ´ + a
+
+
+
+Actions----------------------
+
+public FigureCaption HoverOverFigure(int index){
+        WebElement figure = (WebElement) driver.findElements(figureBox).get(index - 1);
+
+        //actions object from selenium
+        Actions action = new Actions(driver);
+        //we use move to element in order to Hover over it
+        action.moveToElement(figure).perform();
+
+        return new FigureCaption(figure.findElement(boxCaption));
+    }
+
+    //the above method works with this one at the end
+
+    public class FigureCaption {
+
+            private WebElement caption;
+            private By header = By.tagName("h5");
+            private By link = By.tagName("a");
+            public FigureCaption(WebElement caption){
+                this.caption = caption;
+            }
+
+            public boolean isCaptionDisplayed(){
+                return caption.isDisplayed();
+            }
+
+            public String getTitle(){
+                return caption.findElement(header).getText();
+            }
+
+            public String getLink(){
+                return caption.findElement(link).getAttribute("href");
+            }
+
+            public String getLinkText(){
+                return caption.findElement(link).getText();
+            }
+        }
